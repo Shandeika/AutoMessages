@@ -1,0 +1,5 @@
+name: Auto Messages
+version: '${version}'
+main: ru.shandydev.automessages.AutoMessages
+api-version: '1.20'
+load: STARTUP
