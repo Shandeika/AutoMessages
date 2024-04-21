@@ -1,4 +1,4 @@
-name: Auto Messages
+name: AutoMessages
 version: '${version}'
 main: ru.shandydev.automessages.AutoMessages
 api-version: '1.20'
