@@ -1,0 +1,19 @@
+messages:
+  message1:
+    prefix: "&a[Сервер] &r"
+    prefix-color: green
+    message-lines:
+      - line1:
+          text: "Привет!"
+          color: red
+          style: bold
+      - line2:
+          text: "Это автоматическое сообщение."
+          color: yellow
+          style: italic
+      - line3:
+          text: "Ссылка на Discord"
+          color: blue
+          style: underline
+          link: "https://shandydev.com/dicord"
+    interval: 60

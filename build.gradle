@@ -46,4 +46,10 @@ processResources {
     filesMatching('plugin.yml') {
         expand props
     }
+
+    // Копируем файл config.yml в JAR
+    from('src/main/resources') {
+        include 'config.yml'
+        into 'config'
+    }
 }
