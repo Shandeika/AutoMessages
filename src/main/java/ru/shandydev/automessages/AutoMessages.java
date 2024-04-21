@@ -6,6 +6,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -45,6 +46,9 @@ public final class AutoMessages extends JavaPlugin {
         // Запуск таймера для отправки сообщений
         startMessageTask();
 
+        // Команда "am"
+        Objects.requireNonNull(this.getCommand("am")).setExecutor(new AutoMessagesCommand());
+
         getServer().getConsoleSender().sendMessage(Component.text("[Auto Messages] Plugin enabled").color(NamedTextColor.GREEN));
     }
 
@@ -53,23 +57,27 @@ public final class AutoMessages extends JavaPlugin {
         getServer().getConsoleSender().sendMessage(Component.text("[Auto Messages] Plugin disabled").color(NamedTextColor.RED));
     }
 
-    public boolean onCommand(@NotNull CommandSender sender, Command command, @NotNull String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("am")) {
-            if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
-                reloadConfig();
-                config = getConfig();
-                startMessageTask();
-                sender.sendMessage("[Auto Messages] Конфигурация перезагружена.");
-                return true;
+    public class AutoMessagesCommand implements CommandExecutor {
+
+        public boolean onCommand(@NotNull CommandSender sender, Command command, @NotNull String label, String[] args) {
+            if (command.getName().equalsIgnoreCase("am")) {
+                if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
+                    reloadConfig();
+                    config = getConfig();
+                    startMessageTask();
+                    sender.sendMessage("[Auto Messages] Конфигурация перезагружена.");
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
     }
 
     private void startMessageTask() {
         getServer().getConsoleSender().sendMessage("[Auto Messages] Запуск таймера для отправки сообщений");
         ConfigurationSection messagesSection = config.getConfigurationSection("messages");
         if (messagesSection != null) {
+            Bukkit.getScheduler().cancelTasks(this);
             for (String key : messagesSection.getKeys(false)) {
                 String prefix = messagesSection.getString(key + ".prefix", "");
                 String prefixColor = messagesSection.getString(key + ".prefix-color", "white");
