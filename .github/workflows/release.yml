@@ -31,6 +31,11 @@ jobs:
         run: |
           echo "version_name=${{steps.plugin_version.outputs.VERSION_NAME}}" >> $GITHUB_ENV
 
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -40,4 +45,19 @@ jobs:
           tag_name: ${{env.version_name}}
           release_name: Release ${{env.version_name}}
           draft: false
-          prerelease: false
+          prerelease: ${{ contains(env.version_name, 'pre') }}
+
+      - name: Upload to spigotmc
+        id: upload_to_spigotmc
+        uses: spartacus04/spigot-publish-action@v1
+        with:
+          UPDATE_PAGE: 'https://www.spigotmc.org/resources/auto-messages.116446/add-version'
+          EMAIL: ${{ secrets.SPIGOTMC_EMAIL }}
+          PASSWORD: ${{ secrets.SPIGOTMC_PASSWORD }}
+          OTP_SECRET: ${{ secrets.SPIGOTMC_OTP }}
+          DOWNLOAD_URL: 'https://github.com/Shandeika/AutoMessages/releases/latest'
+          IS_FILE: true
+          FILE_NAME: 'AutoMessages.jar'
+          VERSION: ${{env.version_name}}
+          TITLE: 'New Plugin Update'
+          DESCRIPTION: 'You can read the list of changes in the release on GitHub: https://github.com/Shandeika/AutoMessages/releases/tag/${{env.version_name}}'
