@@ -47,17 +47,16 @@ jobs:
           draft: false
           prerelease: ${{ contains(env.version_name, 'pre') }}
 
-      - name: Upload to spigotmc
-        id: upload_to_spigotmc
-        uses: spartacus04/spigot-publish-action@v1
-        with:
-          UPDATE_PAGE: 'https://www.spigotmc.org/resources/auto-messages.116446/add-version'
-          EMAIL: ${{ secrets.SPIGOTMC_EMAIL }}
-          PASSWORD: ${{ secrets.SPIGOTMC_PASSWORD }}
-          OTP_SECRET: ${{ secrets.SPIGOTMC_OTP }}
-          DOWNLOAD_URL: 'https://github.com/Shandeika/AutoMessages/releases/latest'
-          IS_FILE: true
-          FILE_NAME: 'AutoMessages.jar'
-          VERSION: ${{env.version_name}}
-          TITLE: 'New Plugin Update'
-          DESCRIPTION: 'You can read the list of changes in the release on GitHub: https://github.com/Shandeika/AutoMessages/releases/tag/${{env.version_name}}'
+#      - name: Upload to spigotmc
+#        id: upload_to_spigotmc
+#        uses: spartacus04/spigot-publish-action@v1
+#        with:
+#          UPDATE_PAGE: 'https://www.spigotmc.org/resources/auto-messages.116446/add-version'
+#          EMAIL: ${{ secrets.SPIGOTMC_EMAIL }}
+#          PASSWORD: ${{ secrets.SPIGOTMC_PASSWORD }}
+#          OTP_SECRET: ${{ secrets.SPIGOTMC_OTP }}
+#          DOWNLOAD_URL: 'https://github.com/Shandeika/AutoMessages/releases/latest'
+#          IS_FILE: false
+#          VERSION: ${{env.version_name}}
+#          TITLE: 'New Plugin Update'
+#          DESCRIPTION: 'You can read the list of changes in the release on GitHub: https://github.com/Shandeika/AutoMessages/releases/tag/${{env.version_name}}'
