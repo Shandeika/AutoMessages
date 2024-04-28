@@ -32,6 +32,7 @@ messages:
 It will display this message once every 60 seconds (interval parameter):
 ![Automatic Chat Message](https://assets.shandy-dev.ru/u/8c4317fda96b49388e4c56adb4dd1636 "Automatic Chat Message")
 
+The interval is configured in seconds.
 ## Commands
 
 The only command in the plugin is `/am reload`. It reloads the config and immediately sends all messages from the config.
@@ -43,10 +44,10 @@ Here's what it looks like:
 ## Formatting
 Formatting is possible:
 
-| Object View  | Color | Text Style | Link |
-|--------------|-------|------------|------|
-| Prefix       | ✅     | ❌          | ❌    |
-| Message Line | ✅     | ✅          | ✅    | ✅ |
+| Object View  | Color | Text Style | Link | Command |
+|--------------|-------|------------|------|---------|
+| Prefix       | ✅     | ❌          | ❌    | ❌       |
+| Message Line | ✅     | ✅          | ✅    | ✅       |
 
 ### Available colors:
 
@@ -94,6 +95,27 @@ Example:
     interval: 60
 ```
 
+### Commands
+
+You can set a command by clicking on the text. When you click on the text, the user will be presented with a command in the input field.
+
+Example:
+```yml
+  message1:
+    prefix: "[Сервер] "
+    prefix-color: green
+    message-lines:
+      - line1:
+          text: "Привет!"
+          color: red
+          style: bold
+          command: "/say Привет!"
+    interval: 60
+```
+You cannot install a link and a command at the same time. If both of these properties for a line are specified in the config, the command will be applied.
+
+**IMPORTANT! The command must start with `/`!**
+
 ## Using the plugin
 
 Just drop `AutoMessages.jar` into the `plugins` folder and start the server.
@@ -101,5 +123,3 @@ Just drop `AutoMessages.jar` into the `plugins` folder and start the server.
 Configure your `config.yml`. The command to reload your configuration is `/am reload`.
 
 Enjoy!
-
-Translated with DeepL.com (free version)
