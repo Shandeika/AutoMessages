@@ -23,7 +23,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 
-record Message(String style, List<String> lines, String color, String link) {
+record Message(String style, List<String> lines, String color, String link, String command) {
 
 }
 
@@ -83,7 +83,8 @@ public final class AutoMessages extends JavaPlugin {
                 String prefixColor = messagesSection.getString(key + ".prefix-color", "white");
                 String prefixStyle = "";
                 String prefixLink = "";
-                final Component prefixComponent = stringToComponent(prefix, prefixColor, prefixStyle, prefixLink);
+                String prefixCommand = "";
+                final Component prefixComponent = stringToComponent(prefix, prefixColor, prefixStyle, prefixLink, prefixCommand);
 
                 List<Map<?, ?>> messageLinesMaps = messagesSection.getMapList(key + ".message-lines");
                 List<Message> messages = getMessages(messageLinesMaps);
@@ -97,7 +98,8 @@ public final class AutoMessages extends JavaPlugin {
                                     String.join("\n", message.lines()),
                                     message.color(),
                                     message.style(),
-                                    message.link()
+                                    message.link(),
+                                    message.command()
                             );
                             player.sendMessage(Component.text().append(prefixComponent).append(messageComponent).build());
                         }
@@ -120,7 +122,11 @@ public final class AutoMessages extends JavaPlugin {
                 if (line.containsKey("link")) {
                     link = (String) line.get("link");
                 }
-                messages.add(new Message(style, Collections.singletonList(text), color, link));
+                String command = "";
+                if (line.containsKey("command")) {
+                    command = (String) line.get("command");
+                }
+                messages.add(new Message(style, Collections.singletonList(text), color, link, command));
             }
         }
         return messages;
@@ -145,7 +151,7 @@ public final class AutoMessages extends JavaPlugin {
         }
     }
 
-    public Component stringToComponent(@NotNull String text, @NotNull String color, String style, String link) {
+    public Component stringToComponent(@NotNull String text, @NotNull String color, String style, String link, String command) {
         final Map<String, NamedTextColor> colorMap = Map.ofEntries(
                 Map.entry("aqua", NamedTextColor.AQUA),
                 Map.entry("black", NamedTextColor.BLACK),
@@ -174,6 +180,7 @@ public final class AutoMessages extends JavaPlugin {
         var component = Component.text(text).color(colorMap.getOrDefault(color, NamedTextColor.WHITE));
         if (style != null && !style.isEmpty() && styleMap.containsKey(style)) component = component.decorate(styleMap.get(style));
         if (link != null && !link.isEmpty()) component = component.clickEvent(ClickEvent.openUrl(link));
+        if (command != null && command.startsWith("/")) component = component.clickEvent(ClickEvent.suggestCommand(command));
         return component;
     }
 }
