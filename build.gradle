@@ -39,6 +39,10 @@ tasks.withType(JavaCompile).configureEach {
     }
 }
 
+tasks.register('printVersionName') {
+    println project.version
+}
+
 processResources {
     def props = [version: version]
     inputs.properties props
