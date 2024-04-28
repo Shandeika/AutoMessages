@@ -8,3 +8,9 @@ commands:
     description: "Automessages command"
     usage: "/am"
     aliases: ["automsg", "automessages"]
+    permission: permission.node
+    permission-message: "У Вас нет прав на использование этой комманды"
+permissions:
+  permission.op:
+    description: "OP"
+    default: op
