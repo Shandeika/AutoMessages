@@ -1,6 +1,6 @@
 messages:
   message1:
-    prefix: "&a[Сервер] &r"
+    prefix: "[Сервер] "
     prefix-color: green
     message-lines:
       - line1:
