@@ -49,12 +49,14 @@ public final class AutoMessages extends JavaPlugin {
         // Команда "am"
         Objects.requireNonNull(this.getCommand("am")).setExecutor(new AutoMessagesCommand());
 
-        getServer().getConsoleSender().sendMessage(Component.text("[Auto Messages] Plugin enabled").color(NamedTextColor.GREEN));
+        var text = String.format("[%s] Plugin enabled", getName());
+        getServer().getConsoleSender().sendMessage(Component.text(text).color(NamedTextColor.GREEN));
     }
 
     @Override
     public void onDisable() {
-        getServer().getConsoleSender().sendMessage(Component.text("[Auto Messages] Plugin disabled").color(NamedTextColor.RED));
+        var text = String.format("[%s] Plugin disabled", getName());
+        getServer().getConsoleSender().sendMessage(Component.text(text).color(NamedTextColor.RED));
     }
 
     public class AutoMessagesCommand implements CommandExecutor {
@@ -65,7 +67,8 @@ public final class AutoMessages extends JavaPlugin {
                     reloadConfig();
                     config = getConfig();
                     startMessageTask();
-                    sender.sendMessage("[Auto Messages] Конфигурация перезагружена.");
+                    var text = String.format("[%s] Configuration reloaded", getName());
+                    sender.sendMessage(Component.text(text));
                     return true;
                 }
             }
@@ -74,7 +77,8 @@ public final class AutoMessages extends JavaPlugin {
     }
 
     private void startMessageTask() {
-        getServer().getConsoleSender().sendMessage("[Auto Messages] Запуск таймера для отправки сообщений");
+        var text = String.format("[%s] Start message task", getName());
+        getServer().getConsoleSender().sendMessage(Component.text(text));
         ConfigurationSection messagesSection = config.getConfigurationSection("messages");
         if (messagesSection != null) {
             Bukkit.getScheduler().cancelTasks(this);
