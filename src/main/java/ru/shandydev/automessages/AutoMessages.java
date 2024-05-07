@@ -13,6 +13,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -30,6 +31,7 @@ record Message(String style, List<String> lines, String color, String link, Stri
 public final class AutoMessages extends JavaPlugin {
     private File configFile;
     private FileConfiguration config;
+    private ArrayList<BukkitTask> message_tasks;
 
     @Override
     public void onEnable() {
@@ -81,7 +83,10 @@ public final class AutoMessages extends JavaPlugin {
         getServer().getConsoleSender().sendMessage(Component.text(text));
         ConfigurationSection messagesSection = config.getConfigurationSection("messages");
         if (messagesSection != null) {
-            Bukkit.getScheduler().cancelTasks(this);
+            if (message_tasks != null) {
+                message_tasks.forEach(BukkitTask::cancel);
+            }
+            message_tasks = new ArrayList<>();
             for (String key : messagesSection.getKeys(false)) {
                 String prefix = messagesSection.getString(key + ".prefix", "");
                 String prefixColor = messagesSection.getString(key + ".prefix-color", "white");
@@ -95,7 +100,7 @@ public final class AutoMessages extends JavaPlugin {
 
                 int interval = messagesSection.getInt(key + ".interval");
 
-                Bukkit.getScheduler().runTaskTimer(this, () -> {
+                var task = Bukkit.getScheduler().runTaskTimer(this, () -> {
                     for (Message message : messages) {
                         for (Player player : Bukkit.getOnlinePlayers()) {
                             Component messageComponent = stringToComponent(
@@ -109,6 +114,7 @@ public final class AutoMessages extends JavaPlugin {
                         }
                     }
                 }, 0L, 20L * interval);
+                message_tasks.add(task);
             }
         }
     }
