@@ -1,4 +1,4 @@
-package ru.shandydev.automessages;
+package dev.shandy.automessages;
 
 import com.jeff_media.updatechecker.UpdateCheckSource;
 import com.jeff_media.updatechecker.UpdateChecker;
@@ -104,9 +104,9 @@ public final class AutoMessages extends JavaPlugin {
             for (String key : messagesSection.getKeys(false)) {
                 String prefix = messagesSection.getString(key + ".prefix", "");
                 String prefixColor = messagesSection.getString(key + ".prefix-color", "white");
-                String prefixStyle = "";
-                String prefixLink = "";
-                String prefixCommand = "";
+                String prefixStyle = messagesSection.getString(key + ".prefix-style", "");
+                String prefixLink = messagesSection.getString(key + ".prefix-link", "");
+                String prefixCommand = messagesSection.getString(key + ".prefix-command", "");
                 final Component prefixComponent = stringToComponent(prefix, prefixColor, prefixStyle, prefixLink, prefixCommand);
 
                 List<Map<?, ?>> messageLinesMaps = messagesSection.getMapList(key + ".message-lines");
