@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 group = 'ru.shandydev'
@@ -15,10 +16,15 @@ repositories {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
+    maven {
+        name = "jeff_media"
+        url = "https://repo.jeff-media.com/public/"
+    }
 }
 
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT"
+    implementation 'com.jeff_media:SpigotUpdateChecker:3.0.3'
 }
 
 def targetJavaVersion = 17
@@ -41,6 +47,10 @@ tasks.withType(JavaCompile).configureEach {
 
 tasks.register('printVersionName') {
     println project.version
+}
+
+shadowJar {
+    relocate('com.jeff_media', 'ru.shandydev.lib')
 }
 
 processResources {

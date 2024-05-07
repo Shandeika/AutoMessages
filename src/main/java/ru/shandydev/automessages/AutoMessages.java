@@ -1,5 +1,7 @@
 package ru.shandydev.automessages;
 
+import com.jeff_media.updatechecker.UpdateCheckSource;
+import com.jeff_media.updatechecker.UpdateChecker;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -31,10 +33,22 @@ record Message(String style, List<String> lines, String color, String link, Stri
 public final class AutoMessages extends JavaPlugin {
     private File configFile;
     private FileConfiguration config;
+    private static final String SPIGOT_RESOURCE_ID = "116446";
     private ArrayList<BukkitTask> message_tasks;
 
     @Override
     public void onEnable() {
+        // Подключение проверки обновлений
+        new UpdateChecker(this, UpdateCheckSource.SPIGOT, SPIGOT_RESOURCE_ID)
+                .checkEveryXHours(24)
+                .setDonationLink("https://shandy.dev/donate")
+                .setDownloadLink(Integer.parseInt(SPIGOT_RESOURCE_ID))
+                .onFail((commandSenders, exception) -> {
+                    getLogger().warning("Failed to check for updates: " + exception.getMessage());
+                })
+                .setNotifyOpsOnJoin(true)
+                .checkNow();
+
         // Создание конфигурационного файла
         configFile = new File(getDataFolder(), "config.yml");
         if (!configFile.exists()) {
