@@ -20,16 +20,15 @@ jobs:
           java-version: '17'
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew shadowJar
 
-      - name: Retrieve Version
+      - name: Get plugin version
+        id: get_version
         run: |
-          echo "::set-output name=VERSION_NAME::$(${{github.workspace}}/gradlew -q printVersionName)"
-        id: plugin_version
-
-      - name: Get version
-        run: |
-          echo "version_name=${{steps.plugin_version.outputs.VERSION_NAME}}" >> $GITHUB_ENV
+          echo "version_name=$(./gradlew -q printVersionName)" >> $GITHUB_ENV
+    outputs:
+      version_name: ${{ steps.get_version.outputs.version_name }}
+      jar_file: build/libs/AutoMessages-${{ steps.get_version.outputs.version_name }}.jar
 
   publish:
     needs: build
@@ -38,25 +37,9 @@ jobs:
     steps:
       - name: Create release
         id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v2.0.5
         with:
-          tag_name: ${{env.version_name}}
-          release_name: Release ${{env.version_name}}
+          tag_name: ${{needs.build.outputs.version_name}}
+          release_name: Release ${{needs.build.outputs.version_name}}
           draft: false
-          prerelease: ${{ contains(env.version_name, 'pre') }}
-
-#      - name: Upload to spigotmc
-#        id: upload_to_spigotmc
-#        uses: spartacus04/spigot-publish-action@v1
-#        with:
-#          UPDATE_PAGE: 'https://www.spigotmc.org/resources/auto-messages.116446/add-version'
-#          EMAIL: ${{ secrets.SPIGOTMC_EMAIL }}
-#          PASSWORD: ${{ secrets.SPIGOTMC_PASSWORD }}
-#          OTP_SECRET: ${{ secrets.SPIGOTMC_OTP }}
-#          DOWNLOAD_URL: 'https://github.com/Shandeika/AutoMessages/releases/latest'
-#          IS_FILE: false
-#          VERSION: ${{env.version_name}}
-#          TITLE: 'New Plugin Update'
-#          DESCRIPTION: 'You can read the list of changes in the release on GitHub: https://github.com/Shandeika/AutoMessages/releases/tag/${{env.version_name}}'
+          files: ${{needs.build.outputs.jar_file}}
