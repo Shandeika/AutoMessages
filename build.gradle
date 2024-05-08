@@ -53,6 +53,10 @@ shadowJar {
     relocate('com.jeff_media', 'dev.shandy.lib')
     archiveClassifier.set('')
     archiveFileName = 'AutoMessages.jar'
+    // Создать файл latest_version.txt с текущим версионным номером
+    doLast {
+        new File('latest_version.txt').text = version
+    }
 }
 
 processResources {
