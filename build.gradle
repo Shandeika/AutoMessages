@@ -52,6 +52,7 @@ tasks.register('printVersionName') {
 shadowJar {
     relocate('com.jeff_media', 'dev.shandy.lib')
     archiveClassifier.set('')
+    archiveFileName = 'AutoMessages.jar'
 }
 
 processResources {
