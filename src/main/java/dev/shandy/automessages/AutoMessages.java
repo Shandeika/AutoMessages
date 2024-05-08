@@ -39,10 +39,10 @@ public final class AutoMessages extends JavaPlugin {
     @Override
     public void onEnable() {
         // Подключение проверки обновлений
-        new UpdateChecker(this, UpdateCheckSource.SPIGOT, SPIGOT_RESOURCE_ID)
+        new UpdateChecker(this, UpdateCheckSource.CUSTOM_URL, "https://jenkins.shandy.dev/job/AutoMessages/lastSuccessfulBuild/artifact/latest_version.txt")
                 .checkEveryXHours(24)
                 .setDonationLink("https://shandy.dev/donate")
-                .setDownloadLink(Integer.parseInt(SPIGOT_RESOURCE_ID))
+                .setDownloadLink("https://jenkins.shandy.dev/job/AutoMessages/lastSuccessfulBuild/artifact/build/libs/AutoMessages.jar")
                 .onFail((commandSenders, exception) -> {
                     getLogger().warning("Failed to check for updates: " + exception.getMessage());
                 })
