@@ -4,6 +4,7 @@ import com.jeff_media.updatechecker.UpdateCheckSource;
 import com.jeff_media.updatechecker.UpdateChecker;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bstats.bukkit.Metrics;
@@ -207,8 +208,22 @@ public final class AutoMessages extends JavaPlugin {
         );
         var component = Component.text(text).color(colorMap.getOrDefault(color, NamedTextColor.WHITE));
         if (style != null && !style.isEmpty() && styleMap.containsKey(style)) component = component.decorate(styleMap.get(style));
-        if (link != null && !link.isEmpty()) component = component.clickEvent(ClickEvent.openUrl(link));
-        if (command != null && command.startsWith("/")) component = component.clickEvent(ClickEvent.suggestCommand(command));
+        if (link != null && !link.isEmpty()) {
+            component = component.clickEvent(ClickEvent.openUrl(link))
+                    .hoverEvent(
+                            HoverEvent.showText(
+                                    Component.text("Link: ")
+                            )
+                    );
+        }
+        if (command != null && command.startsWith("/")) {
+            component = component.clickEvent(ClickEvent.suggestCommand(command))
+                    .hoverEvent(
+                            HoverEvent.showText(
+                                    Component.text("Command: ")
+                            )
+                    );
+        }
         return component;
     }
 }
