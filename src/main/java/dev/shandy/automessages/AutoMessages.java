@@ -212,7 +212,7 @@ public final class AutoMessages extends JavaPlugin {
             component = component.clickEvent(ClickEvent.openUrl(link))
                     .hoverEvent(
                             HoverEvent.showText(
-                                    Component.text("Link: ")
+                                    Component.text("Link: "+link)
                             )
                     );
         }
@@ -220,7 +220,7 @@ public final class AutoMessages extends JavaPlugin {
             component = component.clickEvent(ClickEvent.suggestCommand(command))
                     .hoverEvent(
                             HoverEvent.showText(
-                                    Component.text("Command: ")
+                                    Component.text("Command: "+command)
                             )
                     );
         }
