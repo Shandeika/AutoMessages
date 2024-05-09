@@ -6,6 +6,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -33,11 +34,14 @@ record Message(String style, List<String> lines, String color, String link, Stri
 public final class AutoMessages extends JavaPlugin {
     private File configFile;
     private FileConfiguration config;
-    private static final String SPIGOT_RESOURCE_ID = "116446";
     private ArrayList<BukkitTask> message_tasks;
+    private static final int BSTATS_PLUGIN_ID = 21844;
 
     @Override
     public void onEnable() {
+        // Подключение статистики
+        new Metrics(this, BSTATS_PLUGIN_ID);
+
         // Подключение проверки обновлений
         new UpdateChecker(this, UpdateCheckSource.CUSTOM_URL, "https://jenkins.shandy.dev/job/AutoMessages/lastSuccessfulBuild/artifact/latest_version.txt")
                 .checkEveryXHours(24)

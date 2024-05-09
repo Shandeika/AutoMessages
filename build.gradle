@@ -25,6 +25,7 @@ repositories {
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT"
     implementation 'com.jeff_media:SpigotUpdateChecker:3.0.3'
+    compileOnly "org.bstats:bstats-bukkit:3.0.2"
 }
 
 def targetJavaVersion = 17
@@ -51,6 +52,7 @@ tasks.register('printVersionName') {
 
 shadowJar {
     relocate('com.jeff_media', 'dev.shandy.lib')
+    relocate('org.bstats', 'dev.shandy.lib')
     archiveClassifier.set('')
     archiveFileName = 'AutoMessages.jar'
     // Создать файл latest_version.txt с текущим версионным номером
