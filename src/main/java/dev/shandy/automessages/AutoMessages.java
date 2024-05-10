@@ -66,7 +66,7 @@ public final class AutoMessages extends JavaPlugin {
         config = YamlConfiguration.loadConfiguration(configFile);
 
         // Подключение локализации
-        localization = new Localization(this, config.getString("locale"));
+        localization = new Localization(this, config.getString("locale", "en"));
 
         // Запуск таймера для отправки сообщений
         startMessageTask();
@@ -91,7 +91,7 @@ public final class AutoMessages extends JavaPlugin {
                 if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
                     reloadConfig();
                     config = getConfig();
-                    localization = new Localization(AutoMessages.this, config.getString("locale"));
+                    localization = new Localization(AutoMessages.this, config.getString("locale", "en"));
                     startMessageTask();
                     var text = String.format("[%s] %s", getName(), localization.localize("plugin_reloaded"));
                     sender.sendMessage(Component.text(text));
