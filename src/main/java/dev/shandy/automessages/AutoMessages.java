@@ -48,6 +48,7 @@ public final class AutoMessages extends JavaPlugin {
         new UpdateChecker(this, UpdateCheckSource.CUSTOM_URL, "https://jenkins.shandy.dev/job/AutoMessages/lastSuccessfulBuild/artifact/latest_version.txt")
                 .checkEveryXHours(24)
                 .setDonationLink("https://shandy.dev/donate")
+                .setChangelogLink("https://jenkins.shandy.dev/job/AutoMessages/lastSuccessfulBuild/changes")
                 .setDownloadLink("https://jenkins.shandy.dev/job/AutoMessages/lastSuccessfulBuild/artifact/build/libs/AutoMessages.jar")
                 .onFail((commandSenders, exception) -> {
                     getLogger().warning("Failed to check for updates: " + exception.getMessage());
