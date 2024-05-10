@@ -37,6 +37,7 @@ public final class AutoMessages extends JavaPlugin {
     private FileConfiguration config;
     private ArrayList<BukkitTask> message_tasks;
     private static final int BSTATS_PLUGIN_ID = 21844;
+    private Localization localization;
 
     @Override
     public void onEnable() {
@@ -64,6 +65,9 @@ public final class AutoMessages extends JavaPlugin {
         // Загрузка конфигурации
         config = YamlConfiguration.loadConfiguration(configFile);
 
+        // Подключение локализации
+        localization = new Localization(this, config.getString("locale"));
+
         // Запуск таймера для отправки сообщений
         startMessageTask();
 
@@ -87,6 +91,7 @@ public final class AutoMessages extends JavaPlugin {
                 if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
                     reloadConfig();
                     config = getConfig();
+                    localization = new Localization(AutoMessages.this, config.getString("locale"));
                     startMessageTask();
                     var text = String.format("[%s] Configuration reloaded", getName());
                     sender.sendMessage(Component.text(text));
