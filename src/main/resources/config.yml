@@ -1,3 +1,8 @@
+# Available translations: en, ru
+# If you want to translate yourself, create a file "{lang_code}.yml" and specify {lang_code} below
+locale: "en"
+
+# Setup instructions here: https://wiki.shandy.dev/en/AutoMessages/introduction
 messages:
   message1:
     prefix: "[Сервер] "
@@ -14,6 +19,6 @@ messages:
       - line3:
           text: "Ссылка на Discord"
           color: blue
-          style: underline
-          link: "https://shandydev.com/dicord"
+          style: underlined
+          link: "https://shandy.dev/discord"
     interval: 60
