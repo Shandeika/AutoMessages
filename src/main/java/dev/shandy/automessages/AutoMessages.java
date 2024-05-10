@@ -74,13 +74,13 @@ public final class AutoMessages extends JavaPlugin {
         // Команда "am"
         Objects.requireNonNull(this.getCommand("am")).setExecutor(new AutoMessagesCommand());
 
-        var text = String.format("[%s] Plugin enabled", getName());
+        var text = String.format("[%s] %s", getName(), localization.localize("plugin_enabled"));
         getServer().getConsoleSender().sendMessage(Component.text(text).color(NamedTextColor.GREEN));
     }
 
     @Override
     public void onDisable() {
-        var text = String.format("[%s] Plugin disabled", getName());
+        var text = String.format("[%s] %s", getName(), localization.localize("plugin_disabled"));
         getServer().getConsoleSender().sendMessage(Component.text(text).color(NamedTextColor.RED));
     }
 
@@ -93,7 +93,7 @@ public final class AutoMessages extends JavaPlugin {
                     config = getConfig();
                     localization = new Localization(AutoMessages.this, config.getString("locale"));
                     startMessageTask();
-                    var text = String.format("[%s] Configuration reloaded", getName());
+                    var text = String.format("[%s] %s", getName(), localization.localize("plugin_reloaded"));
                     sender.sendMessage(Component.text(text));
                     return true;
                 }
@@ -103,7 +103,7 @@ public final class AutoMessages extends JavaPlugin {
     }
 
     private void startMessageTask() {
-        var text = String.format("[%s] Start message task", getName());
+        var text = String.format("[%s] %s", getName(), localization.localize("start_message_task"));
         getServer().getConsoleSender().sendMessage(Component.text(text));
         ConfigurationSection messagesSection = config.getConfigurationSection("messages");
         if (messagesSection != null) {
@@ -217,7 +217,7 @@ public final class AutoMessages extends JavaPlugin {
             component = component.clickEvent(ClickEvent.openUrl(link))
                     .hoverEvent(
                             HoverEvent.showText(
-                                    Component.text("Link: "+link)
+                                    Component.text(localization.localize("hover_link", link))
                             )
                     );
         }
@@ -225,7 +225,7 @@ public final class AutoMessages extends JavaPlugin {
             component = component.clickEvent(ClickEvent.suggestCommand(command))
                     .hoverEvent(
                             HoverEvent.showText(
-                                    Component.text("Command: "+command)
+                                    Component.text(localization.localize("hover_command", command))
                             )
                     );
         }
