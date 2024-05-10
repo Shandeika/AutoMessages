@@ -1,0 +1,6 @@
+plugin_enabled: "Plugin enabled"
+plugin_disabled: "Plugin disabled"
+plugin_reloaded: "Configuration reloaded"
+start_message_task: "Start message task"
+hover_link: "Link: %s"
+hover_command: "Command: %s"

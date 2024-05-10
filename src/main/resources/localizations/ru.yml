@@ -1,0 +1,6 @@
+plugin_enabled: "Плагин включен"
+plugin_disabled: "Плагин отключен"
+plugin_reloaded: "Конфигурация перезагружена"
+start_message_task: "Запущена задача отправки сообщений"
+hover_link: "Ссылка: %s"
+hover_command: "Команда: %s"
