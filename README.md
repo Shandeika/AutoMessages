@@ -5,9 +5,18 @@ The main and only function is to send automatic messages at a specified interval
 
 When you run the plugin for the first time, the `AutoMessages` directory will be created in the `plugins` directory. In this directory there will be `config.yml` file, using it you can customize messages.
 
+## Everything about setting up the plugin is written on our WIKI
+- EN: https://wiki.shandy.dev/en/AutoMessages/introduction
+- RU: https://wiki.shandy.dev/ru/AutoMessages/introduction
+
 ## Customize messages
 Open the `config.yml` file, initially it will be like this:
 ```yml
+# Available translations: en, ru
+# If you want to translate yourself, create a file "{lang_code}.yml" and specify {lang_code} below
+locale: "en"
+
+# Setup instructions here: https://wiki.shandy.dev/en/AutoMessages/introduction
 messages:
   message1:
     prefix: "[Сервер] "
@@ -24,10 +33,9 @@ messages:
       - line3:
           text: "Ссылка на Discord"
           color: blue
-          style: underline
-          link: "https://shandydev.com/dicord"
+          style: underlined
+          link: "https://shandy.dev/discord"
     interval: 60
-
 ```
 It will display this message once every 60 seconds (interval parameter):
 ![Automatic Chat Message](https://assets.shandy-dev.ru/u/8c4317fda96b49388e4c56adb4dd1636 "Automatic Chat Message")
