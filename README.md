@@ -1,5 +1,5 @@
 # Auto Messages Plugin
-The plugin was written for the server [Vanilla Survival](https://vanillasurv.ru) for the Spigot 1.20.1 version.
+The plugin was written for the server [Vanilla Survival](https://vanillasurv.ru) for the Spigot 1.21 version.
 
 The main and only function is to send automatic messages at a specified interval.
 
