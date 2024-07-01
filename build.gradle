@@ -1,10 +1,11 @@
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'io.github.goooler.shadow' version '8.1.8'
 }
 
 group = 'dev.shandy'
-version = '1.4.4'
+version = rootProject.plugin_version
+api_version = rootProject.api_version
 
 repositories {
     mavenCentral()
@@ -23,12 +24,12 @@ repositories {
 }
 
 dependencies {
-    compileOnly "io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT"
+    compileOnly "io.papermc.paper:paper-api:${rootProject.minecraft_version}-R0.1-SNAPSHOT"
     implementation 'com.jeff_media:SpigotUpdateChecker:3.0.3'
     implementation "org.bstats:bstats-bukkit:3.0.2"
 }
 
-def targetJavaVersion = 17
+def targetJavaVersion = 21
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion
@@ -62,7 +63,7 @@ shadowJar {
 }
 
 processResources {
-    def props = [version: version]
+    def props = [version: version, api_version: api_version]
     inputs.properties props
     filteringCharset 'UTF-8'
     filesMatching('plugin.yml') {
